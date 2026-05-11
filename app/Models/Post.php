@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillable = ['user_id','image','caption'];
+    protected $fillable = [
+    'user_id',
+    'description', // o 'content', verifica tu migración
+    'image',       // usa el nombre que pide el error de SQL
+];
 
     public function user()
     {

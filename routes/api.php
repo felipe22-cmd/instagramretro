@@ -11,9 +11,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MessageController;
 
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login',    [AuthController::class, 'login']);
-
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::middleware('auth:sanctum')->group(function () {
+    // El nombre del parámetro {user} debe coincidir con lo que recibe tu controlador
+    Route::get('/profile/{user}', [ProfileController::class, 'show']);
+
 
     Route::get('/me',     [AuthController::class, 'me']);
     Route::post('/logout', function (Request $request) {
