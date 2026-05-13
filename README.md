@@ -1,59 +1,81 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Insta API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API de backend para una aplicación estilo Instagram construida con Laravel.
 
-## About Laravel
+## Qué se ha hecho
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Creación de endpoints de autenticación con Sanctum:
+  - `POST /api/register`
+  - `POST /api/login`
+  - `POST /api/logout`
+  - `GET /api/me`
+- Implementación de usuarios y perfiles:
+  - Modelo `User` con `name`, `email`, `password` y `username`.
+  - Relación `User -> Profile`.
+- Endpoint para listar usuarios:
+  - `GET /api/users`
+  - Soporta búsqueda con parámetro `search`
+  - Devuelve datos de perfil, conteo de posts, y estado de amistad.
+- Publicaciones, comentarios y likes:
+  - `GET /api/posts`
+  - `POST /api/posts`
+  - `GET /api/posts/{post}`
+  - `DELETE /api/posts/{post}`
+  - `GET /api/posts/{post}/comments`
+  - `POST /api/posts/{post}/comments`
+  - `POST /api/posts/{post}/like`
+  - `DELETE /api/posts/{post}/like`
+- Sistema de amistades:
+  - `POST /api/users/{user}/friend`
+  - `GET /api/friends`
+  - `GET /api/friendships/pending`
+  - `POST /api/friendships/{friendship}/accept`
+- Mensajería entre usuarios:
+  - `GET /api/messages`
+  - `GET /api/messages/{user}`
+  - `POST /api/messages/{user}`
+- Actualización del perfil:
+  - `GET /api/profile/{user}`
+  - `POST /api/profile/update`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Archivos modificados
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- `app/Http/Controllers/AuthController.php`
+- `app/Http/Controllers/FriendshipController.php`
+- `app/Http/Controllers/PostController.php`
+- `app/Http/Controllers/ProfileController.php`
+- `app/Models/Post.php`
+- `app/Models/User.php`
+- `database/seeders/DatabaseSeeder.php`
+- `routes/api.php`
 
-## Learning Laravel
+## Instalación rápida
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+1. Copia el archivo `.env.example` a `.env`.
+2. Configura la base de datos y las credenciales.
+3. Ejecuta:
+   ```bash
+   composer install
+   php artisan key:generate
+   php artisan migrate
+   php artisan db:seed
+   ```
+4. Inicia el servidor:
+   ```bash
+   php artisan serve
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Uso
 
-## Laravel Sponsors
+1. Regístrate con `POST /api/register`.
+2. Inicia sesión con `POST /api/login`.
+3. Usa el token en `Authorization: Bearer <token>` para acceder a los endpoints protegidos.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Notas
 
-### Premium Partners
+- Las contraseñas se almacenan hasheadas con el guardado automático de Laravel.
+- El endpoint `GET /api/users` omite al usuario actual y muestra estado de amistad con el resto.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Licencia
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Este proyecto está basado en Laravel y mantiene la licencia MIT.
